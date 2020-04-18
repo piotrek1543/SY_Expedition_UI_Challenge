@@ -29,9 +29,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      builder: (_) => PageOffsetNotifier(_pageController),
+      create: (_) => PageOffsetNotifier(_pageController),
       child: Scaffold(
         body: Stack(
+          alignment: Alignment.centerLeft,
           children: <Widget>[
             PageView(
               controller: _pageController,
@@ -52,14 +53,18 @@ class _MainPageState extends State<MainPage> {
 class LeopardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(builder: (context, notifier, child) {
-      return Positioned(
-        top: 100,
-        left: -notifier.offset,
-        width: MediaQuery.of(context).size.width * 1.5,
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        return Positioned(
+          left: -0.85 * notifier.offset,
+          width: MediaQuery.of(context).size.width * 1.6,
+          child: child,
+        );
+      },
+      child: IgnorePointer(
         child: Image.asset('assets/leopard.png'),
-      );
-    });
+      ),
+    );
   }
 }
 
