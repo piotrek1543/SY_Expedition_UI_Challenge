@@ -35,6 +35,7 @@ class _MainPageState extends State<MainPage> {
           alignment: Alignment.centerLeft,
           children: <Widget>[
             LeopardImage(),
+            VultureImage(),
             PageView(
               controller: _pageController,
               physics: ClampingScrollPhysics(),
@@ -68,6 +69,30 @@ class LeopardImage extends StatelessWidget {
   }
 }
 
+class VultureImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        return Positioned(
+          left: 1.20 * MediaQuery.of(context).size.width +
+              -0.85 * notifier.offset,
+          child: child,
+        );
+      },
+      child: IgnorePointer(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 90),
+          child: Image.asset(
+            'assets/vulture.png',
+            height: MediaQuery.of(context).size.height / 3,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class LeopardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -78,14 +103,6 @@ class LeopardPage extends StatelessWidget {
 class VulturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(80.0),
-        child: Image.asset(
-          'assets/vulture.png',
-          height: MediaQuery.of(context).size.height / 3,
-        ),
-      ),
-    );
+    return Container();
   }
 }
