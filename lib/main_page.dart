@@ -31,20 +31,23 @@ class _MainPageState extends State<MainPage> {
     return ChangeNotifierProvider(
       create: (_) => PageOffsetNotifier(_pageController),
       child: Scaffold(
-        body: Stack(
-          alignment: Alignment.centerLeft,
-          children: <Widget>[
-            LeopardImage(),
-            VultureImage(),
-            PageView(
-              controller: _pageController,
-              physics: ClampingScrollPhysics(),
-              children: <Widget>[
-                LeopardPage(),
-                VulturePage(),
-              ],
-            ),
-          ],
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.centerLeft,
+            children: <Widget>[
+              AppBar(),
+              LeopardImage(),
+              VultureImage(),
+              PageView(
+                controller: _pageController,
+                physics: ClampingScrollPhysics(),
+                children: <Widget>[
+                  LeopardPage(),
+                  VulturePage(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -87,6 +90,35 @@ class VultureImage extends StatelessWidget {
             'assets/vulture.png',
             height: MediaQuery.of(context).size.height / 3,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class AppBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        child: Row(
+          children: <Widget>[
+            Text(
+              'SY',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Spacer(),
+            Icon(
+              Icons.menu,
+            ),
+          ],
         ),
       ),
     );
