@@ -36,8 +36,6 @@ class _MainPageState extends State<MainPage> {
             alignment: Alignment.centerLeft,
             children: <Widget>[
               AppBar(),
-              LeopardImage(),
-              VultureImage(),
               PageView(
                 controller: _pageController,
                 physics: ClampingScrollPhysics(),
@@ -46,6 +44,8 @@ class _MainPageState extends State<MainPage> {
                   VulturePage(),
                 ],
               ),
+              LeopardImage(),
+              VultureImage(),
             ],
           ),
         ),
@@ -128,7 +128,58 @@ class AppBar extends StatelessWidget {
 class LeopardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 128),
+        The72Text(),
+        TravelDescriptionLabel(),
+      ],
+    );
+  }
+}
+
+class TravelDescriptionLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Text(
+        'Travel description',
+        style: TextStyle(fontSize: 18),
+      ),
+    );
+  }
+}
+
+class The72Text extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        return Transform.translate(
+          offset: Offset(-48 - 0.5 * notifier.offset, 0),
+          child: child,
+        );
+      },
+      child: Container(
+        alignment: Alignment.topLeft,
+        child: RotatedBox(
+          quarterTurns: 1,
+          child: Container(
+            width: 400,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: Text(
+                '72',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
