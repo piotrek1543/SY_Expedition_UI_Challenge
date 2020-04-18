@@ -39,7 +39,6 @@ class _MainPageState extends State<MainPage> {
           child: Stack(
             alignment: Alignment.centerLeft,
             children: <Widget>[
-              AppBar(),
               PageView(
                 controller: _pageController,
                 physics: ClampingScrollPhysics(),
@@ -48,8 +47,10 @@ class _MainPageState extends State<MainPage> {
                   VulturePage(),
                 ],
               ),
+              AppBar(),
               LeopardImage(),
               VultureImage(),
+              ShareButton(),
             ],
           ),
         ),
@@ -163,6 +164,17 @@ class TravelDescriptionLabel extends StatelessWidget {
           style: TextStyle(fontSize: 18),
         ),
       ),
+    );
+  }
+}
+
+class ShareButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 24,
+      bottom: 16,
+      child: Icon(Icons.share),
     );
   }
 }
