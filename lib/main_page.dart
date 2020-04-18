@@ -34,6 +34,7 @@ class _MainPageState extends State<MainPage> {
         body: Stack(
           alignment: Alignment.centerLeft,
           children: <Widget>[
+            LeopardImage(),
             PageView(
               controller: _pageController,
               physics: ClampingScrollPhysics(),
@@ -42,7 +43,6 @@ class _MainPageState extends State<MainPage> {
                 VulturePage(),
               ],
             ),
-            LeopardImage(),
           ],
         ),
       ),
@@ -71,13 +71,21 @@ class LeopardImage extends StatelessWidget {
 class LeopardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/leopard.png');
+    return Container();
   }
 }
 
 class VulturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/vulture.png');
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(80.0),
+        child: Image.asset(
+          'assets/vulture.png',
+          height: MediaQuery.of(context).size.height / 3,
+        ),
+      ),
+    );
   }
 }
