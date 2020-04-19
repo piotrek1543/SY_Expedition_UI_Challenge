@@ -57,6 +57,8 @@ class _MainPageState extends State<MainPage> {
               TravelDetailsLabel(),
               StartCampLabel(),
               StartTimeLabel(),
+              BaseCampLabel(),
+              BaseTimeLabel(),
             ],
           ),
         ),
@@ -232,10 +234,72 @@ class StartCampLabel extends StatelessWidget {
           ),
         );
       },
-      child: Center(
+      child: Align(
+        alignment: Alignment.centerRight,
         child: Text(
           'Start camp',
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+        ),
+      ),
+    );
+  }
+}
+
+class BaseCampLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32,
+          width: (MediaQuery.of(context).size.width - 48.0) / 3,
+          right: _opacity * 24.0,
+          child: Opacity(
+            opacity: _opacity,
+            child: child,
+          ),
+        );
+      },
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'Base camp',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BaseTimeLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32 + 40,
+          width: (MediaQuery.of(context).size.width - 48.0) / 3,
+          right: _opacity * 24.0,
+          child: Opacity(
+            opacity: _opacity,
+            child: child,
+          ),
+        );
+      },
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          '7:30 am',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: lighterGrey,
+          ),
         ),
       ),
     );
@@ -258,7 +322,8 @@ class StartTimeLabel extends StatelessWidget {
           ),
         );
       },
-      child: Center(
+      child: Align(
+        alignment: Alignment.centerRight,
         child: Text(
           '02:40 pm',
           style: TextStyle(
