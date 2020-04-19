@@ -325,11 +325,11 @@ class BaseCampLabel extends StatelessWidget {
 class BaseTimeLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
         double _opacity = math.max(0, 4 * notifier.page - 3);
         return Positioned(
-          top: 128.0 + 400 + 32 + 16 + 32 + 40,
+          top: 128.0 + 32 + 16 + 44 + (1 - animation.value) * (400 + 32 - 4),
           width: (MediaQuery.of(context).size.width - 48.0) / 3,
           right: _opacity * 24.0,
           child: Opacity(
@@ -419,9 +419,14 @@ class DistanceLabel extends StatelessWidget {
 class VultureCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
-        double _multiplier = math.max(0, 4 * notifier.page - 3);
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
+        double _multiplier;
+        if (animation.value == 0) {
+          _multiplier = math.max(0, 4 * notifier.page - 3);
+        } else {
+          _multiplier = math.max(0, 1 - 3 * animation.value);
+        }
         double size = MediaQuery.of(context).size.width / 2 * _multiplier;
         return Container(
           margin: EdgeInsets.only(bottom: 250),
