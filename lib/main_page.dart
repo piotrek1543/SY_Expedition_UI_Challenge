@@ -346,6 +346,7 @@ class DistanceLabel extends StatelessWidget {
       builder: (context, notifier, child) {
         double _opacity = math.max(0, 4 * notifier.page - 3);
         double _width = MediaQuery.of(context).size.width;
+
         return Positioned(
           top: 128.0 + 400 + 32 + 16 + 32 + 40,
           width: _width,
@@ -375,40 +376,55 @@ class TravelDots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PageOffsetNotifier>(
       builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
         return Positioned(
           top: 128.0 + 400 + 32 + 16 + 32 + 4,
           left: 0,
           right: 0,
           child: Center(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: white,
+            child: Opacity(
+              opacity: _opacity,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: _opacity * 40),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: white,
+                    ),
+                    width: 8.0,
+                    height: 8.0,
                   ),
-                  width: 8.0,
-                  height: 8.0,
-                ),
-                SizedBox(width: 4.0),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: white,
+                  Container(
+                    margin: EdgeInsets.only(left: _opacity * 12),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: lightGrey,
+                    ),
+                    width: 4.0,
+                    height: 4.0,
                   ),
-                  width: 8.0,
-                  height: 8.0,
-                ),
-                SizedBox(width: 4.0),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: white,
+                  Container(
+                    margin: EdgeInsets.only(right: _opacity * 12),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: lightGrey,
+                    ),
+                    width: 4.0,
+                    height: 4.0,
                   ),
-                  width: 8.0,
-                  height: 8.0,
-                ),
-              ],
+                  Container(
+                    margin: EdgeInsets.only(right: _opacity * 40),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: white),
+                    ),
+                    width: 8.0,
+                    height: 8.0,
+                  ),
+                ],
+              ),
             ),
           ),
         );
