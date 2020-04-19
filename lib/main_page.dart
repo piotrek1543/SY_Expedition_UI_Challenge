@@ -31,6 +31,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
+  final PageController _pageController = PageController();
+
+  double get maxHeight => 400;
 
   @override
   void initState() {
@@ -41,8 +44,6 @@ class _MainPageState extends State<MainPage>
     );
   }
 
-  final PageController _pageController = PageController();
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -51,37 +52,60 @@ class _MainPageState extends State<MainPage>
         value: _animationController,
         child: Scaffold(
           body: SafeArea(
-            child: Stack(
-              alignment: Alignment.centerLeft,
-              children: <Widget>[
-                PageView(
-                  controller: _pageController,
-                  physics: ClampingScrollPhysics(),
-                  children: <Widget>[
-                    LeopardPage(),
-                    VulturePage(),
-                  ],
-                ),
-                AppBar(),
-                LeopardImage(),
-                VultureImage(),
-                ShareButton(),
-                PageIndicator(),
-                ArrowIcon(),
-                TravelDetailsLabel(),
-                StartCampLabel(),
-                StartTimeLabel(),
-                BaseCampLabel(),
-                BaseTimeLabel(),
-                DistanceLabel(),
-                TravelDots(),
-                MapButton(),
-              ],
+            child: GestureDetector(
+              onVerticalDragUpdate: _handleDragUpdate,
+              onVerticalDragEnd: _handleDragEnd,
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                children: <Widget>[
+                  PageView(
+                    controller: _pageController,
+                    physics: ClampingScrollPhysics(),
+                    children: <Widget>[
+                      LeopardPage(),
+                      VulturePage(),
+                    ],
+                  ),
+                  AppBar(),
+                  LeopardImage(),
+                  VultureImage(),
+                  ShareButton(),
+                  PageIndicator(),
+                  ArrowIcon(),
+                  TravelDetailsLabel(),
+                  StartCampLabel(),
+                  StartTimeLabel(),
+                  BaseCampLabel(),
+                  BaseTimeLabel(),
+                  DistanceLabel(),
+                  TravelDots(),
+                  MapButton(),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    _animationController.value -= details.primaryDelta / maxHeight;
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (_animationController.isAnimating ||
+        _animationController.status == AnimationStatus.completed) return;
+
+    final double flingVelocity =
+        details.velocity.pixelsPerSecond.dy / maxHeight;
+    if (flingVelocity < 0.0)
+      _animationController.fling(velocity: math.max(2.0, -flingVelocity));
+    else if (flingVelocity > 0.0)
+      _animationController.fling(velocity: math.min(-2.0, -flingVelocity));
+    else
+      _animationController.fling(
+          velocity: _animationController.value < 0.5 ? -2.0 : 2.0);
   }
 }
 
@@ -144,16 +168,16 @@ class ArrowIcon extends StatelessWidget {
     return Consumer<AnimationController>(
       builder: (context, animation, child) {
         return Positioned(
-          top: (1 - animation.value) * (128.0 + 400 + 32 - 4),
+          top: 128.0 + (1 - animation.value) * (400 + 32 - 4),
           right: 24,
           child: child,
         );
       },
       child: Icon(
-          Icons.keyboard_arrow_up,
-          size: 28,
-          color: lighterGrey,
-        ),
+        Icons.keyboard_arrow_up,
+        size: 28,
+        color: lighterGrey,
+      ),
     );
   }
 }
