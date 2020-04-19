@@ -61,6 +61,7 @@ class _MainPageState extends State<MainPage> {
               BaseTimeLabel(),
               DistanceLabel(),
               TravelDots(),
+              MapButton(),
             ],
           ),
         ),
@@ -365,6 +366,42 @@ class DistanceLabel extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: white,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class VultureCircle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class MapButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 8,
+      bottom: 0,
+      child: Consumer<PageOffsetNotifier>(
+        builder: (context, notifier, child) {
+          double _opacity = math.max(0, 4 * notifier.page - 3);
+          return Opacity(
+            opacity: _opacity,
+            child: child,
+          );
+        },
+        child: FlatButton(
+          child: Text(
+            'ON MAP',
+            style: TextStyle(
+              fontSize: 12.0,
+              color: white,
+            ),
+          ),
+          onPressed: () {},
         ),
       ),
     );
