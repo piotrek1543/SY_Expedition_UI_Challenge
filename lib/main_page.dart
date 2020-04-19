@@ -60,6 +60,7 @@ class _MainPageState extends State<MainPage> {
               BaseCampLabel(),
               BaseTimeLabel(),
               DistanceLabel(),
+              TravelDots(),
             ],
           ),
         ),
@@ -365,6 +366,53 @@ class DistanceLabel extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TravelDots extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32 + 4,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: white,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+                ),
+                SizedBox(width: 4.0),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: white,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+                ),
+                SizedBox(width: 4.0),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: white,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
