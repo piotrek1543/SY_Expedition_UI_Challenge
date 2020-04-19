@@ -243,10 +243,10 @@ class VulturePage extends StatelessWidget {
 class TravelDetailsLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
         return Positioned(
-          top: 128.0 + 400 + 32 - 4,
+          top: 128.0 + (1 - animation.value) * (400 + 32 - 4),
           left: 24.0 + MediaQuery.of(context).size.width - notifier.offset,
           child: Opacity(
             opacity: math.max(0, 4 * notifier.page - 3),
@@ -295,11 +295,11 @@ class StartCampLabel extends StatelessWidget {
 class BaseCampLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
         double _opacity = math.max(0, 4 * notifier.page - 3);
         return Positioned(
-          top: 128.0 + 400 + 32 + 16 + 32,
+          top: 128.0 + 32 + 16 + 4 + (1 - animation.value) * (400 + 32 - 4),
           width: (MediaQuery.of(context).size.width - 48.0) / 3,
           right: _opacity * 24.0,
           child: Opacity(
