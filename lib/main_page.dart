@@ -59,6 +59,7 @@ class _MainPageState extends State<MainPage> {
               StartTimeLabel(),
               BaseCampLabel(),
               BaseTimeLabel(),
+              DistanceLabel(),
             ],
           ),
         ),
@@ -330,6 +331,37 @@ class StartTimeLabel extends StatelessWidget {
             fontSize: 14,
             fontWeight: FontWeight.w300,
             color: lighterGrey,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DistanceLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
+        double _width = MediaQuery.of(context).size.width;
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32 + 40,
+          width: _width,
+          child: Opacity(
+            opacity: _opacity,
+            child: child,
+          ),
+        );
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          '72 km',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: white,
           ),
         ),
       ),
