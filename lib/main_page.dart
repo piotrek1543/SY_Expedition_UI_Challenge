@@ -51,6 +51,7 @@ class _MainPageState extends State<MainPage> {
               LeopardImage(),
               VultureImage(),
               ShareButton(),
+              PageIndicator(),
             ],
           ),
         ),
@@ -143,6 +144,46 @@ class LeopardPage extends StatelessWidget {
         SizedBox(height: 32),
         LeopardDescription(),
       ],
+    );
+  }
+}
+
+class PageIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: notifier.page.round() == 0 ? white : lightGrey,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+                ),
+                SizedBox(
+                  width: 8.0,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: notifier.page.round() == 1 ? white : lightGrey,
+                  ),
+                  width: 8.0,
+                  height: 8.0,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
