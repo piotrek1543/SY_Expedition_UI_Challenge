@@ -52,6 +52,7 @@ class _MainPageState extends State<MainPage> {
               VultureImage(),
               ShareButton(),
               PageIndicator(),
+              ArrowIcon(),
             ],
           ),
         ),
@@ -148,6 +149,21 @@ class LeopardPage extends StatelessWidget {
   }
 }
 
+class ArrowIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 128.0 + 400 + 32 - 4,
+      right: 24,
+      child: Icon(
+        Icons.keyboard_arrow_up,
+        size: 28,
+        color: lighterGrey,
+      ),
+    );
+  }
+}
+
 class PageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -165,8 +181,8 @@ class PageIndicator extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: notifier.page.round() == 0 ? white : lightGrey,
                   ),
-                  width: 8.0,
-                  height: 8.0,
+                  width: 6.0,
+                  height: 6.0,
                 ),
                 SizedBox(
                   width: 8.0,
@@ -176,8 +192,8 @@ class PageIndicator extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: notifier.page.round() == 1 ? white : lightGrey,
                   ),
-                  width: 8.0,
-                  height: 8.0,
+                  width: 6.0,
+                  height: 6.0,
                 ),
               ],
             ),
