@@ -54,6 +54,7 @@ class _MainPageState extends State<MainPage> {
               ShareButton(),
               PageIndicator(),
               ArrowIcon(),
+              TravelDetailsLabel(),
             ],
           ),
         ),
@@ -187,3 +188,29 @@ class VulturePage extends StatelessWidget {
     return Container();
   }
 }
+
+class TravelDetailsLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        return Positioned(
+          top: 128.0 + 400 + 32 - 4,
+          left: 24.0 + MediaQuery.of(context).size.width - notifier.offset,
+          child: Opacity(
+            opacity: math.max(0, 4 * notifier.page - 3),
+            child: child,
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 24),
+        child: Text(
+          'Travel details',
+          style: TextStyle(fontSize: 18),
+        ),
+      ),
+    );
+  }
+}
+
