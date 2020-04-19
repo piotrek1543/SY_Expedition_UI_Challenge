@@ -192,7 +192,7 @@ class ShareButton extends StatelessWidget {
 class VulturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(child: VultureCircle());
   }
 }
 
@@ -375,7 +375,21 @@ class DistanceLabel extends StatelessWidget {
 class VultureCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _multiplier = math.max(0, 4 * notifier.page - 3);
+        double size = MediaQuery.of(context).size.width / 2 * _multiplier;
+        return Container(
+          margin: EdgeInsets.only(bottom: 250),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: lightGrey,
+          ),
+          width: size,
+          height: size,
+        );
+      },
+    );
   }
 }
 
