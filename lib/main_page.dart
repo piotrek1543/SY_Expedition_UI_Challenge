@@ -28,41 +28,56 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    );
+  }
+
   final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => PageOffsetNotifier(_pageController),
-      child: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              PageView(
-                controller: _pageController,
-                physics: ClampingScrollPhysics(),
-                children: <Widget>[
-                  LeopardPage(),
-                  VulturePage(),
-                ],
-              ),
-              AppBar(),
-              LeopardImage(),
-              VultureImage(),
-              ShareButton(),
-              PageIndicator(),
-              ArrowIcon(),
-              TravelDetailsLabel(),
-              StartCampLabel(),
-              StartTimeLabel(),
-              BaseCampLabel(),
-              BaseTimeLabel(),
-              DistanceLabel(),
-              TravelDots(),
-              MapButton(),
-            ],
+      child: ListenableProvider.value(
+        value: _animationController,
+        child: Scaffold(
+          body: SafeArea(
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: <Widget>[
+                PageView(
+                  controller: _pageController,
+                  physics: ClampingScrollPhysics(),
+                  children: <Widget>[
+                    LeopardPage(),
+                    VulturePage(),
+                  ],
+                ),
+                AppBar(),
+                LeopardImage(),
+                VultureImage(),
+                ShareButton(),
+                PageIndicator(),
+                ArrowIcon(),
+                TravelDetailsLabel(),
+                StartCampLabel(),
+                StartTimeLabel(),
+                BaseCampLabel(),
+                BaseTimeLabel(),
+                DistanceLabel(),
+                TravelDots(),
+                MapButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -126,14 +141,19 @@ class AppBar extends StatelessWidget {
 class ArrowIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 128.0 + 400 + 32 - 4,
-      right: 24,
+    return Consumer<AnimationController>(
+      builder: (context, animation, child) {
+        return Positioned(
+          top: (1 - animation.value) * (128.0 + 400 + 32 - 4),
+          right: 24,
+          child: child,
+        );
+      },
       child: Icon(
-        Icons.keyboard_arrow_up,
-        size: 28,
-        color: lighterGrey,
-      ),
+          Icons.keyboard_arrow_up,
+          size: 28,
+          color: lighterGrey,
+        ),
     );
   }
 }
@@ -415,7 +435,9 @@ class MapButton extends StatelessWidget {
               color: white,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Provider.of<AnimationController>(context).forward();
+          },
         ),
       ),
     );
