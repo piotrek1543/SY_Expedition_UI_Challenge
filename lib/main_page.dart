@@ -55,6 +55,8 @@ class _MainPageState extends State<MainPage> {
               PageIndicator(),
               ArrowIcon(),
               TravelDetailsLabel(),
+              StartCampLabel(),
+              StartTimeLabel(),
             ],
           ),
         ),
@@ -214,3 +216,58 @@ class TravelDetailsLabel extends StatelessWidget {
   }
 }
 
+class StartCampLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32,
+          width: (MediaQuery.of(context).size.width - 48.0) / 3,
+          left: _opacity * 24.0,
+          child: Opacity(
+            opacity: _opacity,
+            child: child,
+          ),
+        );
+      },
+      child: Center(
+        child: Text(
+          'Start camp',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+        ),
+      ),
+    );
+  }
+}
+
+class StartTimeLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32 + 40,
+          width: (MediaQuery.of(context).size.width - 48.0) / 3,
+          left: _opacity * 24.0,
+          child: Opacity(
+            opacity: _opacity,
+            child: child,
+          ),
+        );
+      },
+      child: Center(
+        child: Text(
+          '02:40 pm',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: lighterGrey,
+          ),
+        ),
+      ),
+    );
+  }
+}
