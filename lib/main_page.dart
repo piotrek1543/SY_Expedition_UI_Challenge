@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage>
               onVerticalDragUpdate: _handleDragUpdate,
               onVerticalDragEnd: _handleDragEnd,
               child: Stack(
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.center,
                 children: <Widget>[
                   PageView(
                     controller: _pageController,
@@ -78,8 +78,9 @@ class _MainPageState extends State<MainPage>
                   BaseCampLabel(),
                   BaseTimeLabel(),
                   DistanceLabel(),
-                  TravelDots(),
+                  HorizontalTravelDots(),
                   MapButton(),
+                  VerticalTravelDots(),
                 ],
               ),
             ),
@@ -479,7 +480,42 @@ class MapButton extends StatelessWidget {
   }
 }
 
-class TravelDots extends StatelessWidget {
+class VerticalTravelDots extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AnimationController>(
+      builder: (context, animation, child) {
+        if (animation.value < 1 / 6) return Container();
+
+        double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
+        double bottom = MediaQuery.of(context).size.height - startTop - 86;
+        double endTop = 128.0 + 32 + 16 + 8;
+        double top =
+            endTop + (1 - (1.2 * (animation.value - 1 / 6))) * (400 + 32 - 4);
+
+        return Positioned(
+          top: top,
+          bottom: bottom,
+          child: Center(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Container(
+                  width: 2,
+                  height: double.infinity,
+                  color: white,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(),
+    );
+  }
+}
+
+class HorizontalTravelDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<PageOffsetNotifier, AnimationController>(
