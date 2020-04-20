@@ -488,10 +488,13 @@ class VerticalTravelDots extends StatelessWidget {
         if (animation.value < 1 / 6) return Container();
 
         double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
-        double bottom = MediaQuery.of(context).size.height - startTop - 86;
         double endTop = 128.0 + 32 + 16 + 8;
+
         double top =
             endTop + (1 - (1.2 * (animation.value - 1 / 6))) * (400 + 32 - 4);
+        double bottom = MediaQuery.of(context).size.height - startTop - 86;
+
+        double oneThird = (startTop - endTop) / 3;
 
         return Positioned(
           top: top,
@@ -516,34 +519,30 @@ class VerticalTravelDots extends StatelessWidget {
                     height: 8,
                   ),
                 ),
-                Align(
-                  alignment: Alignment(0, -1 / 3),
+                Positioned(
+                  top: top > oneThird + endTop ? 0 : oneThird + endTop - top,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: white,
-                        width: 2.5,
-                      ),
+                      border: Border.all(color: white, width: 2.5),
                       color: mainBlack,
                     ),
-                    width: 8,
                     height: 8,
+                    width: 8,
                   ),
                 ),
-                Align(
-                  alignment: Alignment(0, 1 / 3),
+                Positioned(
+                  top: top > 2 * oneThird + endTop
+                      ? 0
+                      : 2 * oneThird + endTop - top,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: white,
-                        width: 2.5,
-                      ),
+                      border: Border.all(color: white, width: 2.5),
                       color: mainBlack,
                     ),
-                    width: 8,
                     height: 8,
+                    width: 8,
                   ),
                 ),
                 Align(
