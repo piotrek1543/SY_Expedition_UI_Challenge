@@ -117,7 +117,13 @@ class VultureImage extends StatelessWidget {
         return Positioned(
           left: 1.20 * MediaQuery.of(context).size.width +
               -0.85 * notifier.offset,
-          child: child,
+          child: Transform.scale(
+            scale:  1 - 0.3 * animation.value,
+            child: Opacity(
+              opacity: 1 - 0.6 * animation.value,
+              child: child,
+            ),
+          ),
         );
       },
       child: IgnorePointer(
