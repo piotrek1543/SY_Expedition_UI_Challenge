@@ -112,8 +112,8 @@ class _MainPageState extends State<MainPage>
 class VultureImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
         return Positioned(
           left: 1.20 * MediaQuery.of(context).size.width +
               -0.85 * notifier.offset,
@@ -425,7 +425,7 @@ class VultureCircle extends StatelessWidget {
         if (animation.value == 0) {
           _multiplier = math.max(0, 4 * notifier.page - 3);
         } else {
-          _multiplier = math.max(0, 1 - 3 * animation.value);
+          _multiplier = math.max(0, 1 - 6 * animation.value);
         }
         double size = MediaQuery.of(context).size.width / 2 * _multiplier;
         return Container(
@@ -484,7 +484,7 @@ class TravelDots extends StatelessWidget {
           spacingFactor = math.max(0, 4 * notifier.page - 3);
           opacity = spacingFactor;
         } else {
-          spacingFactor = math.max(0, 1 - 4 * animation.value);
+          spacingFactor = math.max(0, 1 - 6 * animation.value);
           opacity = 1;
         }
         return Positioned(
@@ -529,6 +529,15 @@ class TravelDots extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: white),
+                    ),
+                    width: 8.0,
+                    height: 8.0,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: spacingFactor * 40),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: white,
                     ),
                     width: 8.0,
                     height: 8.0,
