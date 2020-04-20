@@ -118,7 +118,7 @@ class VultureImage extends StatelessWidget {
           left: 1.20 * MediaQuery.of(context).size.width +
               -0.85 * notifier.offset,
           child: Transform.scale(
-            scale:  1 - 0.3 * animation.value,
+            scale: 1 - 0.1 * animation.value,
             child: Opacity(
               opacity: 1 - 0.6 * animation.value,
               child: child,
