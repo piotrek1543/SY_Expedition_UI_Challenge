@@ -81,7 +81,8 @@ class _MainPageState extends State<MainPage>
                   HorizontalTravelDots(),
                   MapButton(),
                   VerticalTravelDots(),
-                  VultureIconLabel()
+                  VultureIconLabel(),
+                  LeopardIconLabel(),
                 ],
               ),
             ),
@@ -665,7 +666,7 @@ class VultureIconLabel extends StatelessWidget {
           opacity = 3 * (animation.value - 2 / 3);
         }
         return Positioned(
-          top: endTop + 2 * oneThird - 28 - 16 - 7,
+          top: endTop + 2 * oneThird - 28 - 16 - 4,
           right: 10 + opacity * 16,
           child: Opacity(
             opacity: opacity,
@@ -675,6 +676,37 @@ class VultureIconLabel extends StatelessWidget {
       },
       child: SmallAnimalIconLabel(
         isVulture: true,
+        showLine: true,
+      ),
+    );
+  }
+}
+
+class LeopardIconLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AnimationController>(
+      builder: (context, animation, child) {
+        double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
+        double endTop = 128.0 + 32 + 16 + 8;
+        double oneThird = (startTop - endTop) / 3;
+        double opacity;
+        if (animation.value < 2 / 3) {
+          opacity = 0;
+        } else {
+          opacity = 3 * (animation.value - 2 / 3);
+        }
+        return Positioned(
+          top: endTop + oneThird - 28 - 16 - 4,
+          left: 10 + opacity * 16,
+          child: Opacity(
+            opacity: opacity,
+            child: child,
+          ),
+        );
+      },
+      child: SmallAnimalIconLabel(
+        isVulture: false,
         showLine: true,
       ),
     );
