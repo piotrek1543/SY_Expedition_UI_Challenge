@@ -476,21 +476,29 @@ class MapButton extends StatelessWidget {
 class TravelDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
-        double _opacity = math.max(0, 4 * notifier.page - 3);
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
+        double spacingFactor;
+        double opacity;
+        if (animation.value == 0) {
+          spacingFactor = math.max(0, 4 * notifier.page - 3);
+          opacity = spacingFactor;
+        } else {
+          spacingFactor = math.max(0, 1 - 4 * animation.value);
+          opacity = 1;
+        }
         return Positioned(
           top: 128.0 + 400 + 32 + 16 + 32 + 4,
           left: 0,
           right: 0,
           child: Center(
             child: Opacity(
-              opacity: _opacity,
+              opacity: opacity,
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(left: _opacity * 40),
+                    margin: EdgeInsets.only(left: spacingFactor * 40),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: white,
@@ -499,7 +507,7 @@ class TravelDots extends StatelessWidget {
                     height: 8.0,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: _opacity * 12),
+                    margin: EdgeInsets.only(left: spacingFactor * 12),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: lightGrey,
@@ -508,7 +516,7 @@ class TravelDots extends StatelessWidget {
                     height: 4.0,
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: _opacity * 12),
+                    margin: EdgeInsets.only(right: spacingFactor * 12),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: lightGrey,
@@ -517,7 +525,7 @@ class TravelDots extends StatelessWidget {
                     height: 4.0,
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: _opacity * 40),
+                    margin: EdgeInsets.only(right: spacingFactor * 40),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: white),
