@@ -504,7 +504,63 @@ class VerticalTravelDots extends StatelessWidget {
                   width: 2,
                   height: double.infinity,
                   color: white,
-                )
+                ),
+                Align(
+                  alignment: Alignment(0, -1),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: white,
+                    ),
+                    width: 8,
+                    height: 8,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(0, -1 / 3),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: white,
+                        width: 2.5,
+                      ),
+                      color: mainBlack,
+                    ),
+                    width: 8,
+                    height: 8,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(0, 1 / 3),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: white,
+                        width: 2.5,
+                      ),
+                      color: mainBlack,
+                    ),
+                    width: 8,
+                    height: 8,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(0, 1),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: white,
+                        width: 1,
+                      ),
+                      color: mainBlack,
+                    ),
+                    width: 8,
+                    height: 8,
+                  ),
+                ),
               ],
             ),
           ),
