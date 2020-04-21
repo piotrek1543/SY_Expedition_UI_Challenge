@@ -23,6 +23,28 @@ class PageOffsetNotifier with ChangeNotifier {
   double get page => _page;
 }
 
+class MapAnimationNotifier with ChangeNotifier {
+  final AnimationController _animationController;
+
+  MapAnimationNotifier(this._animationController) {
+    _animationController.addListener(_onAnimationControllerChanged);
+  }
+
+  double get value => _animationController.value;
+
+  void forward() => _animationController.forward();
+
+  void _onAnimationControllerChanged() {
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _animationController.removeListener(_onAnimationControllerChanged);
+    super.dispose();
+  }
+}
+
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -31,6 +53,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
+  AnimationController _mapAnimationController;
   final PageController _pageController = PageController();
 
   double get maxHeight => 400;
@@ -42,6 +65,17 @@ class _MainPageState extends State<MainPage>
       vsync: this,
       duration: Duration(milliseconds: 1000),
     );
+    _mapAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1000),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _mapAnimationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,40 +84,43 @@ class _MainPageState extends State<MainPage>
       create: (_) => PageOffsetNotifier(_pageController),
       child: ListenableProvider.value(
         value: _animationController,
-        child: Scaffold(
-          body: SafeArea(
-            child: GestureDetector(
-              onVerticalDragUpdate: _handleDragUpdate,
-              onVerticalDragEnd: _handleDragEnd,
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  PageView(
-                    controller: _pageController,
-                    physics: ClampingScrollPhysics(),
-                    children: <Widget>[
-                      LeopardPage(),
-                      VulturePage(),
-                    ],
-                  ),
-                  AppBar(),
-                  LeopardImage(),
-                  VultureImage(),
-                  ShareButton(),
-                  PageIndicator(),
-                  ArrowIcon(),
-                  TravelDetailsLabel(),
-                  StartCampLabel(),
-                  StartTimeLabel(),
-                  BaseCampLabel(),
-                  BaseTimeLabel(),
-                  DistanceLabel(),
-                  HorizontalTravelDots(),
-                  MapButton(),
-                  VerticalTravelDots(),
-                  VultureIconLabel(),
-                  LeopardIconLabel(),
-                ],
+        child: ChangeNotifierProvider(
+          create: (_) => MapAnimationNotifier(_mapAnimationController),
+          child: Scaffold(
+            body: SafeArea(
+              child: GestureDetector(
+                onVerticalDragUpdate: _handleDragUpdate,
+                onVerticalDragEnd: _handleDragEnd,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    PageView(
+                      controller: _pageController,
+                      physics: ClampingScrollPhysics(),
+                      children: <Widget>[
+                        LeopardPage(),
+                        VulturePage(),
+                      ],
+                    ),
+                    AppBar(),
+                    LeopardImage(),
+                    VultureImage(),
+                    ShareButton(),
+                    PageIndicator(),
+                    ArrowIcon(),
+                    TravelDetailsLabel(),
+                    StartCampLabel(),
+                    StartTimeLabel(),
+                    BaseCampLabel(),
+                    BaseTimeLabel(),
+                    DistanceLabel(),
+                    HorizontalTravelDots(),
+                    MapButton(),
+                    VerticalTravelDots(),
+                    VultureIconLabel(),
+                    LeopardIconLabel(),
+                  ],
+                ),
               ),
             ),
           ),
