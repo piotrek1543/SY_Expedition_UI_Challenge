@@ -199,12 +199,14 @@ class VultureImage extends StatelessWidget {
           ),
         );
       },
-      child: IgnorePointer(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 90),
-          child: Image.asset(
-            'assets/vulture.png',
-            height: MediaQuery.of(context).size.height / 3,
+      child: MapHider(
+        child: IgnorePointer(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 90),
+            child: Image.asset(
+              'assets/vulture.png',
+              height: MediaQuery.of(context).size.height / 3,
+            ),
           ),
         ),
       ),
@@ -252,10 +254,12 @@ class ArrowIcon extends StatelessWidget {
           child: child,
         );
       },
-      child: Icon(
-        Icons.keyboard_arrow_up,
-        size: 28,
-        color: lighterGrey,
+      child: MapHider(
+        child: Icon(
+          Icons.keyboard_arrow_up,
+          size: 28,
+          color: lighterGrey,
+        ),
       ),
     );
   }
@@ -264,39 +268,41 @@ class ArrowIcon extends StatelessWidget {
 class PageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: notifier.page.round() == 0 ? white : lightGrey,
+    return MapHider(
+      child: Consumer<PageOffsetNotifier>(
+        builder: (context, notifier, child) {
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: notifier.page.round() == 0 ? white : lightGrey,
+                    ),
+                    width: 6.0,
+                    height: 6.0,
                   ),
-                  width: 6.0,
-                  height: 6.0,
-                ),
-                SizedBox(
-                  width: 8.0,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: notifier.page.round() == 1 ? white : lightGrey,
+                  SizedBox(
+                    width: 8.0,
                   ),
-                  width: 6.0,
-                  height: 6.0,
-                ),
-              ],
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: notifier.page.round() == 1 ? white : lightGrey,
+                    ),
+                    width: 6.0,
+                    height: 6.0,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -315,7 +321,10 @@ class ShareButton extends StatelessWidget {
 class VulturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: VultureCircle());
+    return Center(
+        child: MapHider(
+      child: VultureCircle(),
+    ));
   }
 }
 
@@ -333,8 +342,7 @@ class TravelDetailsLabel extends StatelessWidget {
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 24),
+      child: MapHider(
         child: Text(
           'Travel details',
           style: TextStyle(fontSize: 18),
@@ -360,11 +368,46 @@ class StartCampLabel extends StatelessWidget {
           ),
         );
       },
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          'Start camp',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+      child: MapHider(
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            'Start camp',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class StartTimeLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child) {
+        double _opacity = math.max(0, 4 * notifier.page - 3);
+        return Positioned(
+          top: 128.0 + 400 + 32 + 16 + 32 + 40,
+          width: (MediaQuery.of(context).size.width - 48.0) / 3,
+          left: _opacity * 24.0,
+          child: Opacity(
+            opacity: _opacity,
+            child: child,
+          ),
+        );
+      },
+      child: MapHider(
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            '02:40 pm',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+              color: lighterGrey,
+            ),
+          ),
         ),
       ),
     );
@@ -417,14 +460,16 @@ class BaseTimeLabel extends StatelessWidget {
           ),
         );
       },
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          '7:30 am',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
-            color: lighterGrey,
+      child: MapHider(
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '7:30 am',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+              color: lighterGrey,
+            ),
           ),
         ),
       ),
@@ -432,36 +477,6 @@ class BaseTimeLabel extends StatelessWidget {
   }
 }
 
-class StartTimeLabel extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<PageOffsetNotifier>(
-      builder: (context, notifier, child) {
-        double _opacity = math.max(0, 4 * notifier.page - 3);
-        return Positioned(
-          top: 128.0 + 400 + 32 + 16 + 32 + 40,
-          width: (MediaQuery.of(context).size.width - 48.0) / 3,
-          left: _opacity * 24.0,
-          child: Opacity(
-            opacity: _opacity,
-            child: child,
-          ),
-        );
-      },
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          '02:40 pm',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
-            color: lighterGrey,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class DistanceLabel extends StatelessWidget {
   @override
@@ -480,43 +495,18 @@ class DistanceLabel extends StatelessWidget {
           ),
         );
       },
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(
-          '72 km',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: white,
+      child: MapHider(
+        child: Center(
+          child: Text(
+            '72 km',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: white,
+            ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class VultureCircle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer2<PageOffsetNotifier, AnimationController>(
-      builder: (context, notifier, animation, child) {
-        double _multiplier;
-        if (animation.value == 0) {
-          _multiplier = math.max(0, 4 * notifier.page - 3);
-        } else {
-          _multiplier = math.max(0, 1 - 6 * animation.value);
-        }
-        double size = MediaQuery.of(context).size.width / 2 * _multiplier;
-        return Container(
-          margin: EdgeInsets.only(bottom: 250),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: lightGrey,
-          ),
-          width: size,
-          height: size,
-        );
-      },
     );
   }
 }
@@ -551,6 +541,51 @@ class MapButton extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class MapHider extends StatelessWidget {
+  final Widget child;
+
+  const MapHider({Key key, @required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<MapAnimationNotifier>(
+      builder: (context, notifier, child) {
+        return Opacity(
+          opacity: math.max(0, 1 - (2 * notifier.value)),
+          child: child,
+        );
+      },
+      child: child,
+    );
+  }
+}
+
+class VultureCircle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer2<PageOffsetNotifier, AnimationController>(
+      builder: (context, notifier, animation, child) {
+        double _multiplier;
+        if (animation.value == 0) {
+          _multiplier = math.max(0, 4 * notifier.page - 3);
+        } else {
+          _multiplier = math.max(0, 1 - 6 * animation.value);
+        }
+        double size = MediaQuery.of(context).size.width / 2 * _multiplier;
+        return Container(
+          margin: EdgeInsets.only(bottom: 250),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: lightGrey,
+          ),
+          width: size,
+          height: size,
+        );
+      },
     );
   }
 }
