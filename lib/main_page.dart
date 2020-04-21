@@ -50,8 +50,7 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>
-    with SingleTickerProviderStateMixin {
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   AnimationController _animationController;
   AnimationController _mapAnimationController;
   final PageController _pageController = PageController();
@@ -87,41 +86,46 @@ class _MainPageState extends State<MainPage>
         child: ChangeNotifierProvider(
           create: (_) => MapAnimationNotifier(_mapAnimationController),
           child: Scaffold(
-            body: SafeArea(
-              child: GestureDetector(
-                onVerticalDragUpdate: _handleDragUpdate,
-                onVerticalDragEnd: _handleDragEnd,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    PageView(
-                      controller: _pageController,
-                      physics: ClampingScrollPhysics(),
+            body: Stack(
+              children: <Widget>[
+                MapImage(),
+                SafeArea(
+                  child: GestureDetector(
+                    onVerticalDragUpdate: _handleDragUpdate,
+                    onVerticalDragEnd: _handleDragEnd,
+                    child: Stack(
+                      alignment: Alignment.center,
                       children: <Widget>[
-                        LeopardPage(),
-                        VulturePage(),
+                        PageView(
+                          controller: _pageController,
+                          physics: ClampingScrollPhysics(),
+                          children: <Widget>[
+                            LeopardPage(),
+                            VulturePage(),
+                          ],
+                        ),
+                        AppBar(),
+                        LeopardImage(),
+                        VultureImage(),
+                        ShareButton(),
+                        PageIndicator(),
+                        ArrowIcon(),
+                        TravelDetailsLabel(),
+                        StartCampLabel(),
+                        StartTimeLabel(),
+                        BaseCampLabel(),
+                        BaseTimeLabel(),
+                        DistanceLabel(),
+                        HorizontalTravelDots(),
+                        MapButton(),
+                        VerticalTravelDots(),
+                        VultureIconLabel(),
+                        LeopardIconLabel(),
                       ],
                     ),
-                    AppBar(),
-                    LeopardImage(),
-                    VultureImage(),
-                    ShareButton(),
-                    PageIndicator(),
-                    ArrowIcon(),
-                    TravelDetailsLabel(),
-                    StartCampLabel(),
-                    StartTimeLabel(),
-                    BaseCampLabel(),
-                    BaseTimeLabel(),
-                    DistanceLabel(),
-                    HorizontalTravelDots(),
-                    MapButton(),
-                    VerticalTravelDots(),
-                    VultureIconLabel(),
-                    LeopardIconLabel(),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -146,6 +150,20 @@ class _MainPageState extends State<MainPage>
     else
       _animationController.fling(
           velocity: _animationController.value < 0.5 ? -2.0 : 2.0);
+  }
+}
+
+class MapImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: Image.asset(
+        'assets/map.png',
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }
 
