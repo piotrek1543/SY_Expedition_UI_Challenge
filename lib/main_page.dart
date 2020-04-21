@@ -121,6 +121,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         VerticalTravelDots(),
                         VultureIconLabel(),
                         LeopardIconLabel(),
+                        CurvedRoute(),
                       ],
                     ),
                   ),
@@ -430,13 +431,15 @@ class BaseCampLabel extends StatelessWidget {
           ),
         );
       },
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          'Base camp',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
+      child: MapHider(
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Base camp',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
           ),
         ),
       ),
@@ -476,7 +479,6 @@ class BaseTimeLabel extends StatelessWidget {
     );
   }
 }
-
 
 class DistanceLabel extends StatelessWidget {
   @override
@@ -590,6 +592,93 @@ class VultureCircle extends StatelessWidget {
   }
 }
 
+class CurvedRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<MapAnimationNotifier>(
+      builder: (context, animation, child) {
+        if (animation.value < 1 / 6) return Container();
+
+        double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
+        double endTop = 128.0 + 32 + 16 + 8;
+
+        double top =
+            endTop + (1 - (1.2 * (animation.value - 1 / 6))) * (400 + 32 - 4);
+        double bottom = MediaQuery.of(context).size.height - startTop - 86;
+
+        double oneThird = (startTop - endTop) / 3;
+        double width = MediaQuery.of(context).size.width;
+
+        return Positioned(
+          top: endTop,
+          bottom: bottom,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Positioned(
+                  top: oneThird,
+                  right: width / 2 - 4 - animation.value * 60,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: white, width: 2.5),
+                      color: mainBlack,
+                    ),
+                    height: 8,
+                    width: 8,
+                  ),
+                ),
+                Positioned(
+                  top: 2 * oneThird,
+                  right: width / 2 - 4 - animation.value * 50,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: white, width: 2.5),
+                      color: mainBlack,
+                    ),
+                    height: 8,
+                    width: 8,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(0, 1),
+                  child: Container(
+                    margin: EdgeInsets.only(right: 100 * animation.value),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: white, width: 1),
+                      color: mainBlack,
+                    ),
+                    height: 8,
+                    width: 8,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(0, -1),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 40 * animation.value),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: white,
+                    ),
+                    height: 8,
+                    width: 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(),
+    );
+  }
+}
+
 class VerticalTravelDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -685,6 +774,8 @@ class HorizontalTravelDots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<PageOffsetNotifier, AnimationController>(
       builder: (context, notifier, animation, child) {
+        if (animation.value == 1) return Container();
+
         double spacingFactor;
         double opacity;
         if (animation.value == 0) {
@@ -705,31 +796,22 @@ class HorizontalTravelDots extends StatelessWidget {
                 alignment: Alignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(left: spacingFactor * 40),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: white,
-                    ),
-                    width: 8.0,
-                    height: 8.0,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: spacingFactor * 12),
+                    margin: EdgeInsets.only(left: spacingFactor * 10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: lightGrey,
                     ),
-                    width: 4.0,
-                    height: 4.0,
+                    height: 4,
+                    width: 4,
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: spacingFactor * 12),
+                    margin: EdgeInsets.only(right: spacingFactor * 10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: lightGrey,
                     ),
-                    width: 4.0,
-                    height: 4.0,
+                    height: 4,
+                    width: 4,
                   ),
                   Container(
                     margin: EdgeInsets.only(right: spacingFactor * 40),
@@ -737,8 +819,8 @@ class HorizontalTravelDots extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(color: white),
                     ),
-                    width: 8.0,
-                    height: 8.0,
+                    height: 8,
+                    width: 8,
                   ),
                   Container(
                     margin: EdgeInsets.only(left: spacingFactor * 40),
@@ -746,8 +828,8 @@ class HorizontalTravelDots extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: white,
                     ),
-                    width: 8.0,
-                    height: 8.0,
+                    height: 8,
+                    width: 8,
                   ),
                 ],
               ),
