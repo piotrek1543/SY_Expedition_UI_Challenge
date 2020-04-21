@@ -156,12 +156,27 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 class MapImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: Image.asset(
-        'assets/map.png',
-        fit: BoxFit.cover,
+    return Consumer<MapAnimationNotifier>(
+      builder: (context, notifier, child) {
+        double scale = 1 + 0.3 * (1 - notifier.value);
+        return Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..scale(scale, scale)
+            ..rotateZ(0.05 * math.pi * (1 - notifier.value)),
+          child: Opacity(
+            opacity: notifier.value,
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        child: Image.asset(
+          'assets/map.png',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -514,9 +529,9 @@ class MapButton extends StatelessWidget {
       bottom: 0,
       child: Consumer<PageOffsetNotifier>(
         builder: (context, notifier, child) {
-          double _opacity = math.max(0, 4 * notifier.page - 3);
+          double opacity = math.max(0, 4 * notifier.page - 3);
           return Opacity(
-            opacity: _opacity,
+            opacity: opacity,
             child: child,
           );
         },
@@ -529,7 +544,10 @@ class MapButton extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            Provider.of<AnimationController>(context).forward();
+            final notifier = Provider.of<MapAnimationNotifier>(context);
+            notifier.value == 0
+                ? notifier.forward()
+                : notifier._animationController.reverse();
           },
         ),
       ),
