@@ -844,19 +844,24 @@ class HorizontalTravelDots extends StatelessWidget {
 class VultureIconLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<AnimationController>(
-      builder: (context, animation, child) {
+    return Consumer2<AnimationController, MapAnimationNotifier>(
+      builder: (context, animation, notifier, child) {
         double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
         double endTop = 128.0 + 32 + 16 + 8;
         double oneThird = (startTop - endTop) / 3;
         double opacity;
         if (animation.value < 2 / 3) {
           opacity = 0;
-        } else {
+        } else if (notifier.value == 0) {
           opacity = 3 * (animation.value - 2 / 3);
+        } else if (notifier.value < 0.33) {
+          opacity = 1 - 3 * notifier.value;
+        } else {
+          opacity = 0;
         }
+
         return Positioned(
-          top: endTop + 2 * oneThird - 28 - 16 - 4,
+          top: endTop + 2 * oneThird - 28 - 16 - 7,
           right: 10 + opacity * 16,
           child: Opacity(
             opacity: opacity,
@@ -875,16 +880,21 @@ class VultureIconLabel extends StatelessWidget {
 class LeopardIconLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<AnimationController>(
-      builder: (context, animation, child) {
+    return Consumer2<AnimationController, MapAnimationNotifier>(
+      builder: (context, animation, notifier, child) {
         double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
         double endTop = 128.0 + 32 + 16 + 8;
         double oneThird = (startTop - endTop) / 3;
         double opacity;
-        if (animation.value < 2 / 3) {
+
+        if (animation.value < 3 / 4) {
           opacity = 0;
+        } else if (notifier.value == 0) {
+          opacity = 4 * (animation.value - 3 / 4);
+        } else if (notifier.value < 0.33) {
+          opacity = 1 - 3 * notifier.value;
         } else {
-          opacity = 3 * (animation.value - 2 / 3);
+          opacity = 0;
         }
         return Positioned(
           top: endTop + oneThird - 28 - 16 - 4,
