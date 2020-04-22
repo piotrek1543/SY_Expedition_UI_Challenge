@@ -2,8 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syexpedition/styles/styles.dart';
 
-import 'constants.dart';
 import 'main_page.dart';
 
 class LeopardImage extends StatelessWidget {

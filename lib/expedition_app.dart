@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syexpedition/constants.dart';
+import 'package:syexpedition/styles/styles.dart';
 import 'package:syexpedition/main_page.dart';
 
 class ExpeditionApp extends StatelessWidget {
