@@ -5,11 +5,18 @@ import 'package:provider/provider.dart';
 import 'package:syexpedition/notifiers/map_animation_notifier.dart';
 import 'package:syexpedition/notifiers/page_offset_notifier.dart';
 import 'package:syexpedition/position_helpers.dart';
-import 'package:syexpedition/screens/map_screen.dart';
 import 'package:syexpedition/screens/vulture_page.dart';
 import 'package:syexpedition/styles/styles.dart';
+import 'package:syexpedition/widgets/curved_route.dart';
 import 'package:syexpedition/widgets/leopard_image.dart';
 import 'package:syexpedition/widgets/map_hider.dart';
+import 'package:syexpedition/widgets/animal_icon_label.dart';
+import 'package:syexpedition/widgets/leopard_icon_label.dart';
+import 'package:syexpedition/widgets/map_base_camp.dart';
+import 'package:syexpedition/widgets/map_image.dart';
+import 'package:syexpedition/widgets/map_leopards.dart';
+import 'package:syexpedition/widgets/map_start_camp.dart';
+import 'package:syexpedition/widgets/map_vultures.dart';
 
 import 'leopard_page.dart';
 
