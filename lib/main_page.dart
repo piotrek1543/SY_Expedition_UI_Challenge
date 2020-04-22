@@ -601,11 +601,7 @@ class CurvedRoute extends StatelessWidget {
 
         double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
         double endTop = 128.0 + 32 + 16 + 8;
-
-        double top =
-            endTop + (1 - (1.2 * (animation.value - 1 / 6))) * (400 + 32 - 4);
         double bottom = MediaQuery.of(context).size.height - startTop - 86;
-
         double oneThird = (startTop - endTop) / 3;
         double width = MediaQuery.of(context).size.width;
 
@@ -614,68 +610,134 @@ class CurvedRoute extends StatelessWidget {
           bottom: bottom,
           left: 0,
           right: 0,
-          child: Center(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: <Widget>[
-                Positioned(
-                  top: oneThird,
-                  right: width / 2 - 4 - animation.value * 60,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: white, width: 2.5),
-                      color: mainBlack,
+          child: CustomPaint(
+            painter: CurvePainter(animation.value),
+            child: Center(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  Positioned(
+                    top: oneThird,
+                    right: width / 2 - 4 - animation.value * 60,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: white, width: 2.5),
+                        color: mainBlack,
+                      ),
+                      height: 8,
+                      width: 8,
                     ),
-                    height: 8,
-                    width: 8,
                   ),
-                ),
-                Positioned(
-                  top: 2 * oneThird,
-                  right: width / 2 - 4 - animation.value * 50,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: white, width: 2.5),
-                      color: mainBlack,
+                  Positioned(
+                    top: 2 * oneThird,
+                    right: width / 2 - 4 - animation.value * 50,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: white, width: 2.5),
+                        color: mainBlack,
+                      ),
+                      height: 8,
+                      width: 8,
                     ),
-                    height: 8,
-                    width: 8,
                   ),
-                ),
-                Align(
-                  alignment: Alignment(0, 1),
-                  child: Container(
-                    margin: EdgeInsets.only(right: 100 * animation.value),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: white, width: 1),
-                      color: mainBlack,
+                  Align(
+                    alignment: Alignment(0, 1),
+                    child: Container(
+                      margin: EdgeInsets.only(right: 100 * animation.value),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: white, width: 1),
+                        color: mainBlack,
+                      ),
+                      height: 8,
+                      width: 8,
                     ),
-                    height: 8,
-                    width: 8,
                   ),
-                ),
-                Align(
-                  alignment: Alignment(0, -1),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 40 * animation.value),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: white,
+                  Align(
+                    alignment: Alignment(0, -1),
+                    child: Container(
+                      margin: EdgeInsets.only(left: 40 * animation.value),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: white,
+                      ),
+                      height: 8,
+                      width: 8,
                     ),
-                    height: 8,
-                    width: 8,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
       },
-      child: Container(),
     );
+  }
+}
+
+class CurvePainter extends CustomPainter {
+  final double animationValue;
+  double width;
+
+  CurvePainter(this.animationValue);
+
+  double interpolate(double x) {
+    return width / 2 + (x - width / 2) * animationValue;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint();
+    width = size.width;
+    paint.color = white;
+    paint.style = PaintingStyle.stroke;
+    paint.strokeWidth = 2;
+    var path = Path();
+
+//    print(interpolate(size, x))
+    var startPoint = Offset(interpolate(width / 2 + 20), 4);
+    var controlPoint1 = Offset(interpolate(width / 2 + 60), size.height / 4);
+    var controlPoint2 = Offset(interpolate(width / 2 + 20), size.height / 4);
+    var endPoint = Offset(interpolate(width / 2 + 55 + 4), size.height / 3);
+
+    path.moveTo(startPoint.dx, startPoint.dy);
+    path.cubicTo(controlPoint1.dx, controlPoint1.dy, controlPoint2.dx,
+        controlPoint2.dy, endPoint.dx, endPoint.dy);
+
+    startPoint = endPoint;
+    controlPoint1 = Offset(interpolate(width / 2 + 100), size.height / 2);
+    controlPoint2 = Offset(interpolate(width / 2 + 20), size.height / 2 + 40);
+    endPoint = Offset(interpolate(width / 2 + 50 + 2), 2 * size.height / 3 - 1);
+
+    path.cubicTo(controlPoint1.dx, controlPoint1.dy, controlPoint2.dx,
+        controlPoint2.dy, endPoint.dx, endPoint.dy);
+
+    startPoint = endPoint;
+    controlPoint1 =
+        Offset(interpolate(width / 2 - 20), 2 * size.height / 3 - 10);
+    controlPoint2 =
+        Offset(interpolate(width / 2 + 20), 5 * size.height / 6 - 10);
+    endPoint = Offset(interpolate(width / 2), 5 * size.height / 6 + 2);
+
+    path.cubicTo(controlPoint1.dx, controlPoint1.dy, controlPoint2.dx,
+        controlPoint2.dy, endPoint.dx, endPoint.dy);
+
+    startPoint = endPoint;
+    controlPoint1 = Offset(interpolate(width / 2 - 100), size.height - 80);
+    controlPoint2 = Offset(interpolate(width / 2 - 40), size.height - 50);
+    endPoint = Offset(interpolate(width / 2 - 50), size.height - 4);
+
+    path.cubicTo(controlPoint1.dx, controlPoint1.dy, controlPoint2.dx,
+        controlPoint2.dy, endPoint.dx, endPoint.dy);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CurvePainter oldDelegate) {
+    return oldDelegate.animationValue != animationValue;
   }
 }
 
@@ -774,7 +836,9 @@ class HorizontalTravelDots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<PageOffsetNotifier, AnimationController>(
       builder: (context, notifier, animation, child) {
-        if (animation.value == 1) return Container();
+        if (animation.value == 1) {
+          return Container();
+        }
 
         double spacingFactor;
         double opacity;
