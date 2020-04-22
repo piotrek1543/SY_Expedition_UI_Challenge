@@ -124,6 +124,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                         CurvedRoute(),
                         MapBaseCamp(),
                         MapLeopards(),
+                        MapVultures(),
+                        MapStartCamp(),
                       ],
                     ),
                   ),
@@ -1057,13 +1059,12 @@ class MapBaseCamp extends StatelessWidget {
   }
 }
 
-
 class MapLeopards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<MapAnimationNotifier>(
       builder: (context, notifier, child) {
-                double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
+        double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
         double endTop = 128.0 + 32 + 16 + 8;
         double oneThird = (startTop - endTop) / 3;
         double opacity = math.max(0, 4 * (notifier.value - 3 / 4));
@@ -1080,6 +1081,64 @@ class MapLeopards extends StatelessWidget {
         child: SmallAnimalIconLabel(
           isVulture: false,
           showLine: false,
+        ),
+      ),
+    );
+  }
+}
+
+class MapVultures extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<MapAnimationNotifier>(
+      builder: (context, notifier, child) {
+        double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
+        double endTop = 128.0 + 32 + 16 + 8;
+        double oneThird = (startTop - endTop) / 3;
+        double opacity = math.max(0, 4 * (notifier.value - 3 / 4));
+        return Positioned(
+          top: 128.0 + 32 + 16 + 4 + 2 * oneThird,
+          right: 50,
+          child: Opacity(
+            opacity: opacity,
+            child: child,
+          ),
+        );
+      },
+      child: SmallAnimalIconLabel(
+        isVulture: true,
+        showLine: false,
+      ),
+    );
+  }
+}
+
+class MapStartCamp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<MapAnimationNotifier>(
+      builder: (context, notifier, child) {
+        double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
+        double endTop = 128.0 + 32 + 16 + 8;
+        double oneThird = (startTop - endTop) / 3;
+        double opacity = math.max(0, 4 * (notifier.value - 3 / 4));
+        return Positioned(
+          top: startTop - 4,
+          width: (MediaQuery.of(context).size.width - 48) / 3,
+          child: Opacity(
+            opacity: opacity,
+            child: child,
+          ),
+        );
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(
+          'Start camp',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
     );
