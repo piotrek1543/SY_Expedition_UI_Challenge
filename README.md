@@ -8,9 +8,8 @@ The goal of this project was to learn how to create complex user interfaces with
 ![design](https://user-images.githubusercontent.com/16286046/64514994-09339100-d2ec-11e9-9fde-2b48aa5c222b.gif)
 
 ## TODO
-- [ ] Make sure it works well also on smaller phone screens.
-- [ ] Fix phone-landscape implementation.
-- [ ] Decrease amount of magic numbers
+- [ ] Fix phone-landscape implementation and make sure it works well also on smaller phone screens.
+- [ ] Decrease amount of magic numbers and code complexity (make it more readable).
 
 ## Issues
 
@@ -48,7 +47,7 @@ This project wouldn't be created if some repositories weren't created before
 
 - [Implementing complex UI with Flutter - Marcin Szałek | Flutter Europe](https://www.youtube.com/watch?v=FCyoHclCqc8)
 
-- [Pragmatic State Management in Flutter (Google I/O'19)][https://www.youtube.com/watch?v=d_m5csmrf7I]
+- [Pragmatic State Management in Flutter (Google I/O'19)](https://www.youtube.com/watch?v=d_m5csmrf7I)
 
 - [SY Travel UI Challenge - Fidev (blog post)](https://fidev.io/sy-animation/)
 
