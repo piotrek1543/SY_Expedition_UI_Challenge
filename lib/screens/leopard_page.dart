@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syexpedition/notifiers/page_offset_notifier.dart';
 import 'package:syexpedition/styles/styles.dart';
 
 import 'main_page.dart';

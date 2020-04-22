@@ -2,48 +2,14 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syexpedition/notifiers/map_animation_notifier.dart';
+import 'package:syexpedition/notifiers/page_offset_notifier.dart';
 import 'package:syexpedition/styles/styles.dart';
 
 import 'leopard_page.dart';
 
-class PageOffsetNotifier with ChangeNotifier {
-  double _offset = 0;
-  double _page = 0;
 
-  PageOffsetNotifier(PageController pageController) {
-    pageController.addListener(() {
-      _offset = pageController.offset;
-      _page = pageController.page;
-      notifyListeners();
-    });
-  }
 
-  double get offset => _offset;
-
-  double get page => _page;
-}
-
-class MapAnimationNotifier with ChangeNotifier {
-  final AnimationController _animationController;
-
-  MapAnimationNotifier(this._animationController) {
-    _animationController.addListener(_onAnimationControllerChanged);
-  }
-
-  double get value => _animationController.value;
-
-  void forward() => _animationController.forward();
-
-  void _onAnimationControllerChanged() {
-    notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _animationController.removeListener(_onAnimationControllerChanged);
-    super.dispose();
-  }
-}
 
 class MainPage extends StatefulWidget {
   @override
@@ -543,7 +509,7 @@ class MapButton extends StatelessWidget {
             final notifier = Provider.of<MapAnimationNotifier>(context);
             notifier.value == 0
                 ? notifier.forward()
-                : notifier._animationController.reverse();
+                : notifier.reverse();
           },
         ),
       ),
