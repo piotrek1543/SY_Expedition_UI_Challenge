@@ -3,9 +3,27 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syexpedition/notifiers/page_offset_notifier.dart';
+import 'package:syexpedition/position_helpers.dart';
 import 'package:syexpedition/styles/styles.dart';
 
 import 'main_page.dart';
+
+class LeopardPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: topMargin(context)),
+        The72Text(),
+        SizedBox(height: 32),
+        TravelDescriptionLabel(),
+        SizedBox(height: 32),
+        LeopardDescription(),
+      ],
+    );
+  }
+}
 
 class LeopardImage extends StatelessWidget {
   @override
@@ -26,27 +44,10 @@ class LeopardImage extends StatelessWidget {
         );
       },
       child: MapHider(
-              child: IgnorePointer(
+        child: IgnorePointer(
           child: Image.asset('assets/leopard.png'),
         ),
       ),
-    );
-  }
-}
-
-class LeopardPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 128),
-        The72Text(),
-        SizedBox(height: 32),
-        TravelDescriptionLabel(),
-        SizedBox(height: 32),
-        LeopardDescription(),
-      ],
     );
   }
 }
@@ -99,24 +100,20 @@ class The72Text extends StatelessWidget {
     return Consumer<PageOffsetNotifier>(
       builder: (context, notifier, child) {
         return Transform.translate(
-          offset: Offset(-48 - 0.5 * notifier.offset, 0),
+          offset: Offset(-40 - 0.5 * notifier.offset, 0),
           child: child,
         );
       },
-      child: Container(
-        alignment: Alignment.topLeft,
-        child: RotatedBox(
-          quarterTurns: 1,
-          child: Container(
-            width: 400,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: Text(
-                '72',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+      child: RotatedBox(
+        quarterTurns: 1,
+        child: SizedBox(
+          width: mainSquareSize(context),
+          child: FittedBox(
+            alignment: Alignment.topCenter,
+            fit: BoxFit.cover,
+            child: Text(
+              '72',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
