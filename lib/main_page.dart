@@ -744,9 +744,9 @@ class CurvePainter extends CustomPainter {
 class VerticalTravelDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<AnimationController>(
-      builder: (context, animation, child) {
-        if (animation.value < 1 / 6) return Container();
+    return Consumer2<AnimationController, MapAnimationNotifier>(
+      builder: (context, animation, notifier, child) {
+        if (notifier.value > 1 / 6) return Container();
 
         double startTop = 128.0 + 400 + 32 + 16 + 32 + 4;
         double endTop = 128.0 + 32 + 16 + 8;
