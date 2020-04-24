@@ -7,9 +7,12 @@ import 'package:syexpedition/styles/styles.dart';
 import '../position_helpers.dart';
 
 class CurvedRoute extends StatelessWidget {
+  final EdgeInsets mediaPadding;
+
+  const CurvedRoute({Key key, @required this.mediaPadding}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    EdgeInsets mediaPadding = MediaQuery.of(context).padding;
     return Consumer<MapAnimationNotifier>(
       builder: (context, animation, child) {
         if (animation.value == 0) {
