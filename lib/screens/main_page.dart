@@ -6,6 +6,7 @@ import 'package:syexpedition/notifiers/map_animation_notifier.dart';
 import 'package:syexpedition/notifiers/page_offset_notifier.dart';
 import 'package:syexpedition/position_helpers.dart';
 import 'package:syexpedition/screens/vulture_page.dart';
+import 'package:syexpedition/widgets/custom_app_bar.dart';
 import 'package:syexpedition/widgets/arrow_icon.dart';
 import 'package:syexpedition/widgets/base_camp_label.dart';
 import 'package:syexpedition/widgets/base_time_label.dart';
@@ -94,7 +95,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                             VulturePage(),
                           ],
                         ),
-                        AppBar(),
+                        CustomAppBar(),
                         LeopardImage(),
                         VultureImage(),
                         ShareButton(),
@@ -145,29 +146,5 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     else
       _animationController.fling(
           velocity: _animationController.value < 0.5 ? -2.0 : 2.0);
-  }
-}
-
-class AppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        child: Row(
-          children: <Widget>[
-            Text(
-              'SY',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            Spacer(),
-            Icon(Icons.menu),
-          ],
-        ),
-      ),
-    );
   }
 }
